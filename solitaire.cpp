@@ -1,4 +1,3 @@
-#include <vector>
 #include <algorithm>
 #include <random>
 #include <iostream>
@@ -8,7 +7,7 @@ struct Card {
   char s;   //D, C, S, B
 };
 
-void print(Card* array, int size ) {
+void print(Card* array, int size) {
   std::cout << "\n--Deck--\n";
   for (int i = 0; i < size; i++)
     std::cout << array[i].n << array[i].s << '\n';
@@ -20,14 +19,12 @@ bool operator==(Card lhs, Card rhs) {
 
 int main() {
   int size = 40;
-  int rimaning[40] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  int remaning[40] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
   Card deck[size];
 
   int nGames = 1000000;
   for (int game = 0; game < nGames; game++) {
-  //while(size != 2) {
-    //nGames++;
     size = 40;
 
     //create deck
@@ -78,18 +75,18 @@ int main() {
 
     //print the deck (final state)
     //print(deck,size);
-    rimaning[size-1]++;
+    remaning[size-1]++;
   }
 
   int max = 0;
   for (int i = 0; i < 40; i++) {
-    if (rimaning[i] > max)
-      max = rimaning[i];
+    if (remaning[i] > max)
+      max = remaning[i];
   }
 
   for (int i = 0; i < 40; i++) {
-    std::cout << i+1 << ": \t" << rimaning[i] << '\t';
-    for (int j = 0; j < rimaning[i]*200/max; j++) {
+    std::cout << i+1 << ": \t" << remaning[i] << '\t';
+    for (int j = 0; j < remaning[i]*200/max; j++) {
       std::cout << 'X';
     }
     std::cout << '\n';
