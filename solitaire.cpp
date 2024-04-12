@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <random>
 #include <iostream>
+#include <chrono>
 
 struct Card {
   int n;
@@ -17,14 +18,17 @@ bool operator==(Card lhs, Card rhs) {
   return (lhs.n == rhs.n || lhs.s == rhs.s);
 }
 
+
 int main() {
   int size = 40;
   int remaning[40] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
   Card deck[size];
+  Card initial[size];   //to save the initial deck 
 
-  int nGames = 1000000;
+  int nGames = 10000;
   for (int game = 0; game < nGames; game++) {
+  //while (size > 2) {
     size = 40;
 
     //create deck
@@ -46,9 +50,10 @@ int main() {
     }
 
     //shuffle the deck
-    std::random_device seed;
-    std::mt19937 g(seed());
-    std::shuffle(deck, deck+size, g);
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    //std::random_device seed;
+    //std::mt19937 g(seed());
+    std::shuffle(deck, deck+size, std::default_random_engine(seed));
     
     //set a particular deck
     /*
@@ -61,6 +66,11 @@ int main() {
     //print the deck (initial state)
     //print(deck,size);
 
+    //save the initial deck
+    // for (int i = 0; i < 40; ++i) {
+    //   initial[i] = deck[i];
+    // }
+
     //play a game
     for (int checking = 2; checking < size; checking++) {
       if(deck[checking] == deck[checking-2]) {
@@ -72,11 +82,14 @@ int main() {
           checking = 1;
       }
     }
+  } //end while
 
-    //print the deck (final state)
-    //print(deck,size);
-    remaning[size-1]++;
-  }
+  //print the deck (initial state)
+  //print(initial, 40);
+
+  //print the deck (final state)
+  //print(deck,size);
+  //remaning[size-1]++;
 
   int max = 0;
   for (int i = 0; i < 40; i++) {
