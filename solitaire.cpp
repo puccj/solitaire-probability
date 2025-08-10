@@ -18,6 +18,11 @@ bool operator==(Card lhs, Card rhs) {
   return (lhs.n == rhs.n || lhs.s == rhs.s);
 }
 
+double roundDecimal(double number, int decimal = 2) {
+  double factor = std::pow(10, decimal);
+  return std::round(number * factor) / factor;
+}
+
 
 int main() {
   int size = 40;
@@ -26,7 +31,7 @@ int main() {
   Card deck[size];
   Card initial[size];   //to save the initial deck 
 
-  int nGames = 10000;
+  int nGames = 10000000;
   for (int game = 0; game < nGames; game++) {
   //while (size > 2) {
     size = 40;
@@ -67,9 +72,9 @@ int main() {
     //print(deck,size);
 
     //save the initial deck
-    // for (int i = 0; i < 40; ++i) {
-    //   initial[i] = deck[i];
-    // }
+    for (int i = 0; i < 40; ++i) {
+      initial[i] = deck[i];
+    }
 
     //play a game
     for (int checking = 2; checking < size; checking++) {
@@ -82,26 +87,35 @@ int main() {
           checking = 1;
       }
     }
-  } //end while
 
-  //print the deck (initial state)
-  //print(initial, 40);
+    // save the result (number of cards left)
+    remaning[size-1]++;
 
-  //print the deck (final state)
-  //print(deck,size);
-  //remaning[size-1]++;
+    //print the deck (initial state)
+    // print(initial, 40);
+    
+    //print the deck (final state)
+    // print(deck,size);
+    
+  } //end while or for loop
+  
+
+  // print statistics
+  std::cout << "\n--Statistics--\n";
+  std::cout << "Number of games: " << nGames << "\n\n";
 
   int max = 0;
   for (int i = 0; i < 40; i++) {
     if (remaning[i] > max)
-      max = remaning[i];
+    max = remaning[i];
   }
-
+  
   for (int i = 0; i < 40; i++) {
-    std::cout << i+1 << ": \t" << remaning[i] << '\t';
-    for (int j = 0; j < remaning[i]*200/max; j++) {
+    std::cout << i+1 << ": \t" << remaning[i] << '\t' << roundDecimal(remaning[i]*100.0/nGames) << "%\t";
+    for (int j = 0; j < remaning[i]*150/max; j++) {
       std::cout << 'X';
     }
     std::cout << '\n';
   }
+
 }
